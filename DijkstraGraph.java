@@ -238,7 +238,39 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
     }
     @Test
     public void testNonExistantPaths() {
+      DijkstraGraph<Character, Integer> graph = new DijkstraGraph<Character, Integer>();
+      // Insert nodes
+      graph.insertNode('X');
+      graph.insertNode('Y');
+      graph.insertNode('Z');
+      graph.insertNode('W');
+      graph.insertNode('V');
+      graph.insertNode('U');
+      graph.insertNode('T');
+
+      // Insert edges with weights
+      graph.insertEdge('X', 'Y', 3);
+      graph.insertEdge('X', 'Z', 7);
+      graph.insertEdge('Y', 'W', 2);
+      graph.insertEdge('Z', 'W', 1);
+      graph.insertEdge('W', 'V', 5);
+      graph.insertEdge('V', 'U', 4);
+      graph.insertEdge('U', 'T', 6);
+      graph.insertEdge('V', 'Z', 2);
       
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('T', 'U'));
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('Z', 'X'));
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('U', 'Z'));
+      //tests that nonexistent paths throw NoSuchElementException
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('A', 'Z'));
+      //tests exception when end node is not in the graph
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('Y', 'B'));
+      //tests exception when start node is not in the graph
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('A', 'B'));
+      //tests exception when both nodes are not in the graph
     }
     
 }
