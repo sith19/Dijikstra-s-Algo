@@ -77,8 +77,55 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
      *                                correspond to a graph node
      */
     protected SearchNode computeShortestPath(NodeType start, NodeType end) {
+        Node starting;
+        Node ending;
+        
+        try {
+          starting = this.nodes.get(start);
+          ending = this.nodes.get(end);
+        }catch (NoSuchElementException e) {
+          throw new NoSuchElementException("Start, End Or Both Are Not In The Graph");
+        }
         // implement in step 5.3
-        return null;
+        SearchNode ret = null;
+        
+        BaseGraph< SearchNode, Double> endGraph = new BaseGraph<SearchNode, Double>(new PlaceholderMap<>());
+        
+        PlaceholderMap<Node, Node> visited = new PlaceholderMap<Node, Node>();
+        
+        PriorityQueue<SearchNode> pq = new PriorityQueue<SearchNode>();
+        
+        pq.add(new SearchNode(starting, 0, null));
+        while(!pq.isEmpty()) {
+        
+          SearchNode dest = pq.remove();
+          
+          if(!visited.containsKey(dest.node)) {
+            
+            
+            if(dest.node.equals(starting)) {
+              visited.put(dest.node, dest.node);
+            }else {
+              visited.put(dest.node, dest.node);
+              endGraph.insertEdge(dest.predecessor, dest, dest.cost);
+            }
+            
+            if(dest.node.equals(ending)){
+              ret = dest;
+            }
+            List<Edge> edgesLeaving = dest.node.edgesLeaving;
+            for(Edge e: edgesLeaving) {
+              if(!visited.containsKey(e.successor)) {
+                pq.add(new SearchNode(e.successor, dest.cost + Double.valueOf(e.data.toString()) , dest));
+              }
+            }
+            
+          }
+        }
+        if(ret == null) {
+          throw new NoSuchElementException("Path Does Not Exist Between Nodes");
+        }
+        return ret;
     }
 
     /**
@@ -160,8 +207,10 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
     
       nodelist = graph.shortestPathData('A', 'F');
       comp = List.of('A','B','D','F');
+      //get path data and create a list with the answer from lecture
       if(!nodelist.equals(comp)) {
         Assertions.fail("Shortest Path Doesn't Return Expected List Between A and F");
+        //compare the lists and if they are not equal fail
       }
       
     }
