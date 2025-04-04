@@ -155,7 +155,7 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
       //get path data and create a list with the answer from lecture
       if(!nodelist.equals(comp)) {
         Assertions.fail("Shortest Path Doesn't Return Expected List Between A and E");
-        //compare the lists and if they are not 
+        //compare the lists and if they are not equal fail
       }
     
       nodelist = graph.shortestPathData('A', 'F');
@@ -171,6 +171,7 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
     @Test
     public void testLectureExampleVariation() {
       DijkstraGraph<Character, Integer> graph = new DijkstraGraph<Character, Integer>();
+      //insert nodes
       graph.insertNode('A');
       graph.insertNode('B');
       graph.insertNode('C');
@@ -179,6 +180,8 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
       graph.insertNode('F');
       graph.insertNode('G');
       graph.insertNode('H');
+      
+      //insert edges
       graph.insertEdge('A', 'B', 4);
       graph.insertEdge('A', 'C', 2);
       graph.insertEdge('B', 'D', 1);
@@ -214,28 +217,37 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
       
       if(!nodelist.equals(comp)) {
         Assertions.fail("Shortest Path Doesn't Return Expected List Between C and H");
-        //compare the lists and if they are not 
+        //compare the lists and if they are not equal fail
       }
       
       
       nodelist = graph.shortestPathData('F', 'E');
       comp = List.of('F','D','E');
+      //get path data and create a list with the correct path data
       if(!nodelist.equals(comp)) {
         Assertions.fail("Shortest Path Doesn't Return Expected List Between F and E");
+        //compare the lists and if they are not 
       }
       
       nodelist = graph.shortestPathData('B', 'E');
       comp = List.of('B','D','E');
+      //get path data and create a list with the correct path data
       if(!nodelist.equals(comp)) {
         Assertions.fail("Shortest Path Doesn't Return Expected List Between B and E");
+        //compare the lists and if they are not 
       }
       
       nodelist = graph.shortestPathData('B', 'F');
       comp = List.of('B','D','F');
+      //get path data and create a list with the correct path data
       if(!nodelist.equals(comp)) {
         Assertions.fail("Shortest Path Doesn't Return Expected List Between B and F");
+        //compare the lists and if they are not 
       }
     }
+    /**
+     * Tests that the methods throw a NoSuchElementException when a non existent path is provided
+     */
     @Test
     public void testNonExistantPaths() {
       DijkstraGraph<Character, Integer> graph = new DijkstraGraph<Character, Integer>();
@@ -263,14 +275,23 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
       Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('Z', 'X'));
       
       Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('U', 'Z'));
-      //tests that nonexistent paths throw NoSuchElementException
+      //tests that nonexistent paths throw NoSuchElementException for computeShortestPath
       
-      Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('A', 'Z'));
-      //tests exception when end node is not in the graph
-      Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('Y', 'B'));
-      //tests exception when start node is not in the graph
-      Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('A', 'B'));
-      //tests exception when both nodes are not in the graph
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathData('T', 'U'));
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathData('Z', 'X'));
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathData('U', 'Z'));
+      //checks that the graph throws correct exception for PathData method with nonexistent path
+      
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathCost('T', 'U'));
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathCost('Z', 'X'));
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathCost('U', 'Z'));
+      //Check that the graph throws correct exception for PathCost method with nonexistent path
+     
     }
     
 }
