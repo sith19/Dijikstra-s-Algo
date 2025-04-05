@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.PriorityQueue;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Assertions;
@@ -105,8 +106,10 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
             
             if(dest.node.equals(starting)) {
               visited.put(dest.node, dest.node);
+              endGraph.insertNode(dest);
             }else {
               visited.put(dest.node, dest.node);
+              endGraph.insertNode(dest);
               endGraph.insertEdge(dest.predecessor, dest, dest.cost);
             }
             
@@ -123,7 +126,7 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
           }
         }
         if(ret == null) {
-          throw new NoSuchElementException("Path Does Not Exist Between Nodes");
+          throw new NoSuchElementException("Path Does Not Exist Between " + start + " to " + end);
         }
         return ret;
     }
@@ -141,8 +144,15 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
      * @return list of data item from node along this shortest path
      */
     public List<NodeType> shortestPathData(NodeType start, NodeType end) {
-        // implement in step 5.4
-        return null;
+        
+        SearchNode endNode = this.computeShortestPath(start, end);
+        List<NodeType> pathData = new ArrayList<NodeType>();
+        
+        while(endNode != null) {
+          pathData.add(0, endNode.node.data);
+          endNode = endNode.predecessor;
+        }
+        return pathData;
 	}
 
     /**
@@ -156,8 +166,9 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
      * @return the cost of the shortest path between these nodes
      */
     public double shortestPathCost(NodeType start, NodeType end) {
-        // implement in step 5.4
-        return Double.NaN;
+        SearchNode endNode = this.computeShortestPath(start, end);
+        
+        return endNode.cost;
     }
 
     // TODO: implement 3+ tests in step 4.1
