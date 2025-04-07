@@ -87,6 +87,9 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
         }catch (NoSuchElementException e) {
           throw new NoSuchElementException("Start, End Or Both Are Not In The Graph");
           //if either of the nodes are nonexistent throw a NoSuchElementException
+        }catch(NullPointerException e) {
+          throw new NoSuchElementException("Start Or End Are Null");
+          //if either of the nodes are null throw a NoSuchElementException
         }
         
         SearchNode ret = null;
@@ -451,6 +454,8 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
       Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('Z', 'A'));
       
       Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath('A', 'B'));
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.computeShortestPath(null, null));
       //tests that nonexistent nodes throw NoSuchElementException for computeShortestPath
       
       Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathData('A', 'U'));
@@ -458,6 +463,8 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
       Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathData('Z', 'A'));
       
       Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathData('A', 'B'));
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathData(null, null));
       //checks that the exception propagates for PathData method with nonexistent nodes
       
       
@@ -466,6 +473,8 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
       Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathCost('Z', 'A'));
       
       Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathCost('A', 'B'));
+      
+      Assertions.assertThrows(NoSuchElementException.class, () -> graph.shortestPathCost(null, null));
       //checks that the exception propagates for PathCost method with nonexistent nodes
     }
     
