@@ -85,7 +85,7 @@ public class DijkstraGraph<NodeType, EdgeType extends Number>
           ending = this.nodes.get(end);
           //get nodes from map
         }catch (NoSuchElementException e) {
-          throw new NoSuchElementException("Start, End Or Both Are Not In The Graph");
+          throw new NoSuchElementException("Start Or End Are Not In The Graph");
           //if either of the nodes are nonexistent throw a NoSuchElementException
         }catch(NullPointerException e) {
           throw new NoSuchElementException("Start Or End Are Null");
